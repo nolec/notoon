@@ -6,8 +6,8 @@ const useAuth = (ComposedClass, reload, adminRoute = null) => {
   const AuthenticationCheck = props => {
     let user = useSelector(state => state.user);
     console.log(user);
+    const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
-
     useEffect(() => {
       dispatch(auth()).then(response => {
         if (!response.payload.isAuth) {

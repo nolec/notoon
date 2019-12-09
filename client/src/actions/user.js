@@ -22,8 +22,10 @@ export const registerUser = dataToSubmit => {
   };
 };
 
-export const auth = () => {
-  const request = axios.get("/api/users/auth").then(response => response.data);
+export const auth = async () => {
+  const request = await axios
+    .get("/api/users/auth")
+    .then(response => response.data);
 
   return {
     type: "AUTH_USER",

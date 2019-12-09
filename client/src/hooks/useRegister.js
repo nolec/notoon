@@ -72,16 +72,6 @@ const useRegister = props => {
     }
   };
   const isFormEmpty = ({ name, email, password, passwordConfirmation }) => {
-    console.log(
-      "name",
-      name.length,
-      "email",
-      email.length,
-      "password",
-      password.length,
-      "passwordcon",
-      passwordConfirmation.length
-    );
     return (
       !name.length ||
       !email.length ||

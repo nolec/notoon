@@ -55,7 +55,7 @@ userRouter.get("/logout", Auth, (req, res) => {
   console.log(`${req}req logout`);
   User.findOneAndUpdate(
     { _id: req.user._id },
-    { token: "" },
+    { token: undefined },
     (err, userData) => {
       if (err) return res.json({ success: false, err });
       return res.status(200).json({

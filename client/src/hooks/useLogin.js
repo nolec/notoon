@@ -30,7 +30,7 @@ const useLogin = props => {
     } else {
       setInputs({
         ...inputs,
-        errors: inputs.errors.concat("Email과 Password를 입력해주세요")
+        errors: ["Email과 Password를 입력해주세요"]
       });
       initMessage();
     }
