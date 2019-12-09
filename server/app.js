@@ -20,6 +20,6 @@ app.use("/api/users", userRouter);
 //--------------------------------------------------
 const port = process.env.PORT || 5000;
 const handleListening = () => {
-  console.log(`We listened this PORT : ${port}`);
+  console.log(`We listened this PORT : ${port} please`);
 };
 app.listen(port, handleListening);
