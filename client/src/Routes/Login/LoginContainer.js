@@ -1,6 +1,5 @@
 import React from "react";
 import LoginPresenter from "./LoginPresenter";
-import { connect } from "react-redux";
 import useLogin from "../../hooks/useLogin";
 
 const LoginContainer = ({ props }) => {
