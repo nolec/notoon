@@ -69,13 +69,13 @@ const LoginPresenter = ({
         <Hbox>
           <Hlink to="/">SELF</Hlink>
         </Hbox>
-        <Form onSubmit={event => handleSubmit(event)}>
+        <Form onSubmit={handleSubmit}>
           <div>
             <Name
               name="email"
               type="email"
               placeholder="E-MAIL"
-              onChange={event => handleChange(event)}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -83,14 +83,10 @@ const LoginPresenter = ({
               name="password"
               type="password"
               placeholder="PASSWORD"
-              onChange={event => handleChange(event)}
+              onChange={handleChange}
             />
           </div>
-          <Submit
-            type="submit"
-            value="로그인"
-            onClick={event => handleSubmit(event)}
-          />
+          <Submit type="submit" value="로그인" onClick={handleSubmit} />
         </Form>
         <div>{displayError(inputs.errors)}</div>
       </LoginBox>

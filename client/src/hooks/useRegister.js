@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { registerUser } from "../actions/user";
+import { useDispatch } from "react-redux";
 
 const useRegister = props => {
   const [inputs, setInputs] = useState({
@@ -10,47 +11,48 @@ const useRegister = props => {
     errors: []
   });
 
+  const dispatch = useDispatch();
   const handleSubmit = event => {
-    if (event) {
-      event.preventDefault();
+    event.preventDefault();
 
-      let dataToSubmit = {
-        name: inputs.name,
-        email: inputs.email,
-        password: inputs.password,
-        passwordConfirmation: inputs.passwordConfirmation
-      };
-      console.log("isFromValid", isFormValid());
-      if (isFormValid()) {
-        console.log(props);
-        setInputs({ errors: [] });
-        props
-          .dispatch(registerUser(dataToSubmit))
-          .then(response => {
-            if (response.payload.success) {
+    let dataToSubmit = {
+      name: inputs.name,
+      email: inputs.email,
+      password: inputs.password,
+      passwordConfirmation: inputs.passwordConfirmation
+    };
+    console.log("isFromValid", isFormValid());
+    if (isFormValid()) {
+      setInputs({ errors: [] });
+
+      dispatch(registerUser(dataToSubmit))
+        .then(response => {
+          if (response.payload.success) {
+            setTimeout(() => {
               props.history.push("/");
-            } else {
-              console.log(response.payload.message);
-              setInputs({
-                errors: [response.payload.message]
-              });
-              initMessage();
-            }
-          })
-          .catch(err => {
-            setInputs({ errors: inputs.errors.concat(err) });
-          });
-      } else {
-        setInputs({
-          errors: inputs.errors.concat("유효하지 않은 형식입니다.")
+            }, 3000);
+          } else {
+            console.log(response.payload.message);
+            setInputs({ ...inputs, errors: [response.payload.message] });
+            initMessage();
+          }
+        })
+        .catch(err => {
+          setInputs({ ...inputs, errors: inputs.errors.concat(err) });
         });
-        initMessage();
-      }
+    } else {
+      setInputs({
+        ...inputs,
+        errors: inputs.errors.concat("유효하지 않은 형식입니다.")
+      });
     }
   };
-  const handleChange = event => {
-    setInputs({ ...inputs, [event.target.name]: event.target.value });
-  };
+  const handleChange = useCallback(
+    event => {
+      setInputs({ ...inputs, [event.target.name]: event.target.value });
+    },
+    [inputs]
+  );
   const isFormValid = () => {
     let error;
     let errors = [];
@@ -58,9 +60,13 @@ const useRegister = props => {
     if (isFormEmpty(inputs)) {
       error = { message: "빈칸을 채워주세요" };
       setInputs({ errors: errors.concat(error) });
+      console.log("빈칸에러?");
+      return false;
     } else if (!isPasswordValid(inputs)) {
       error = { message: "패스워드가 서로 다릅니다." };
       setInputs({ errors: errors.concat(error) });
+      console.log("패스워드에러?");
+      return false;
     } else {
       return true;
     }
@@ -68,33 +74,23 @@ const useRegister = props => {
   const isFormEmpty = ({ name, email, password, passwordConfirmation }) => {
     console.log(
       "name",
-      name,
+      name.length,
       "email",
-      email,
+      email.length,
       "password",
-      password,
+      password.length,
       "passwordcon",
-      passwordConfirmation
+      passwordConfirmation.length
     );
-    if (
-      name === "" ||
-      name === undefined ||
-      email === "" ||
-      email === undefined ||
-      password === "" ||
-      password === undefined ||
-      passwordConfirmation === "" ||
-      passwordConfirmation === undefined
-    ) {
-      return true;
-    }
-    return false;
+    return (
+      !name.length ||
+      !email.length ||
+      !password.length ||
+      !passwordConfirmation.length
+    );
   };
   const isPasswordValid = ({ password, passwordConfirmation }) => {
-    if (
-      (password && password.length < 6) ||
-      (passwordConfirmation && passwordConfirmation.length < 6)
-    ) {
+    if (passwordConfirmation && passwordConfirmation.length < 6) {
       return false;
     } else if (password !== passwordConfirmation) {
       return false;
@@ -107,11 +103,7 @@ const useRegister = props => {
     return errors.map((error, i) => <p key={i}>{error}</p>);
   };
   const initMessage = () => {
-    setTimeout(() => {
-      setInputs({
-        errors: []
-      });
-    }, 2000);
+    setInputs({ ...inputs, errors: [] });
   };
 
   return { inputs, handleChange, handleSubmit, displayError };

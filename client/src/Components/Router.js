@@ -9,15 +9,16 @@ import Header from "./Header";
 import Home from "../Routes/Home";
 import Login from "../Routes/Login";
 import Join from "../Routes/Join";
+import useAuth from "../hooks/useAuth";
 
 export default () => {
   return (
     <Router>
       <Header />
       <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/join" component={Join} />
+        <Route path="/" exact component={useAuth(Home, null)} />
+        <Route path="/login" component={useAuth(Login, null)} />
+        <Route path="/register" component={useAuth(Join, null)} />
         <Redirect from="/*" to="/" />
       </Switch>
     </Router>

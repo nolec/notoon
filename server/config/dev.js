@@ -1,3 +1,4 @@
 module.exports = {
-  mongoURL: "mongodb://localhost:27017/notoon"
+  mongoURL:
+    "mongodb+srv://nolec:1532@nolec-a3hlx.mongodb.net/test?retryWrites=true&w=majority"
 };

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
+import { useSelector } from "react-redux";
+import useLogout from "../hooks/useLogout";
 
 const Header = styled.header``;
 const ListSection = styled.section`
@@ -56,15 +58,24 @@ const Slink = styled(Link)`
   height: 100%;
 `;
 
-export default withRouter(({ history, location: { pathname } }) => {
+export default withRouter(({ location: { pathname }, history }) => {
+  const user = useSelector(state => state.user);
   return (
     <Header>
       <IntroSection>
         <IntroText>Show Me Your Talent</IntroText>
-        <AuthBox>
-          <LoginBtn to="/login">로그인</LoginBtn>
-          <JoinBtn to="/join">회원가입</JoinBtn>
-        </AuthBox>
+        {user.userData && !user.userData.isAuth ? (
+          <AuthBox>
+            <LoginBtn to="/login">로그인</LoginBtn>
+            <JoinBtn to="/register">회원가입</JoinBtn>
+          </AuthBox>
+        ) : (
+          <AuthBox>
+            <a href="/" onClick={() => useLogout(history)}>
+              로그아웃
+            </a>
+          </AuthBox>
+        )}
       </IntroSection>
       <ListSection>
         <List>

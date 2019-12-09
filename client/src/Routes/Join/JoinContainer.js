@@ -1,9 +1,8 @@
 import React from "react";
 import JoinPresenter from "./JoinPresenter";
-import { connect } from "react-redux";
 import useRegister from "../../hooks/useRegister";
 
-const JoinContainer = props => {
+const JoinContainer = ({ props }) => {
   const { inputs, handleSubmit, handleChange, displayError } = useRegister(
     props
   );
@@ -16,10 +15,4 @@ const JoinContainer = props => {
     />
   );
 };
-const mapStateToProps = state => {
-  console.log(state.user, "mapStateToProps");
-  return {
-    user: state.user
-  };
-};
-export default connect(mapStateToProps)(JoinContainer);
+export default JoinContainer;

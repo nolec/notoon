@@ -12,6 +12,15 @@ export default (state = {}, action) => {
         success: action.payload
       });
       return registerState;
+    case "AUTH_USER":
+      let authState = Object.assign({}, state, {
+        userData: action.payload
+      });
+      return authState;
+    case "LOGOUT_USER":
+      console.log(action.payload);
+      let logoutUser = Object.assign({}, state);
+      return logoutUser;
     default:
       return state;
   }

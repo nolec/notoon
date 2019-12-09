@@ -71,13 +71,13 @@ const JoinPresenter = ({
         <Hbox>
           <Hlink to="/">SELF</Hlink>
         </Hbox>
-        <Form onSubmit={event => handleSubmit(event)}>
+        <Form onSubmit={handleSubmit}>
           <div>
             <Name
               type="text"
               name="name"
               placeholder="NAME"
-              onChange={event => handleChange(event)}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -85,7 +85,7 @@ const JoinPresenter = ({
               type="email"
               name="email"
               placeholder="E-mail"
-              onChange={event => handleChange(event)}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -93,7 +93,7 @@ const JoinPresenter = ({
               type="password"
               name="password"
               placeholder="PASSWORD"
-              onChange={event => handleChange(event)}
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -101,15 +101,11 @@ const JoinPresenter = ({
               type="password"
               name="passwordConfirmation"
               placeholder="PASSWORD_CONFIRMATION"
-              onChange={event => handleChange(event)}
+              onChange={handleChange}
             />
           </div>
 
-          <Submit
-            type="submit"
-            value="등록"
-            onClick={event => handleSubmit(event)}
-          />
+          <Submit type="submit" value="등록" onClick={handleSubmit} />
         </Form>
         <div>{displayError(inputs.errors)}</div>
       </JoinBox>

@@ -21,3 +21,23 @@ export const registerUser = dataToSubmit => {
     payload: request
   };
 };
+
+export const auth = () => {
+  const request = axios.get("/api/users/auth").then(response => response.data);
+
+  return {
+    type: "AUTH_USER",
+    payload: request
+  };
+};
+
+export const logoutUser = () => {
+  const request = axios
+    .get(`/api/users/logout`)
+    .then(response => response.data);
+
+  return {
+    type: "LOGOUT_USER",
+    payload: request
+  };
+};
